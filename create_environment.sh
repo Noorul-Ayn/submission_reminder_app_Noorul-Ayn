@@ -1,21 +1,26 @@
 #!/bin/bash
+# create the main directory
 mkdir -p submission_reminder_app/{app,config,modules,assets}
+
 touch submission_reminder_app/config/config.env
 touch submission_reminder_app/app/reminder.sh && chmod u+x submission_reminder_app/app/reminder.sh
 touch submission_reminder_app/modules/functions.sh && chmod u+x submission_reminder_app/modules/functions.sh
 touch submission_reminder_app/startup.sh && chmod u+x submission_reminder_app/startup.sh
 touch submission_reminder_app/assets/submissions.txt
+
 echo 'student, assignment, submission status
 here, Shell Navigation, submitted
 Noel, Shell Navigation, not submitted
 Remi, Shell Navigation, not submitted
 Joshua, Shell Navigation, not submitted
-Hamza, Shell Navigation, submitted
-Yuri, Shell Navigation, not submitted
-Harun, Shell Navigation, submitted' > submission_reminder_app/assets/submissions.txt
+Maya, Shell Navigation, submitted
+Lulu, Shell Navigation, not submitted
+Kyle, Shell Navigation, submitted' > submission_reminder_app/assets/submissions.txt
+
 echo '# This is the config file
 ASSIGNMENT="Shell Navigation"
 DAYS_REMAINING=2' > submission_reminder_app/config/config.env
+
 echo '#!/bin/bash
 
 # Function to read submissions file and output students who have not submitted
@@ -36,6 +41,7 @@ function check_submissions {
         fi
     done < <(tail -n +2 "$submissions_file") # Skip the header
 }' > submission_reminder_app/modules/functions.sh
+
 echo '#!/bin/bash
 
 # Source environment variables and helper functions
@@ -51,6 +57,8 @@ echo "Days remaining to submit: $DAYS_REMAINING days"
 echo "--------------------------------------------"
 
 check_submissions $submissions_file' > submission_reminder_app/app/reminder.sh
+
 echo '#!/bin/bash
 ./submission_reminder_app/app/reminder.sh' > submission_reminder_app/startup.sh
+
 ./submission_reminder_app/startup.sh
